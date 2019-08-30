@@ -26,6 +26,7 @@
     "command-line-usage": "^5.0.5",
     "ical-generator": "^1.7.1",
     "node-fetch": "^2.6.0",
-    "pdf2html": "^2.4.0"
+    "pdf2html": "^2.4.0",
+    "uuid": "^3.3.3"
   }
 }

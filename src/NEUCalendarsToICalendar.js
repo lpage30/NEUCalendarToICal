@@ -3,6 +3,7 @@ const fetch = require('node-fetch')
 const ical = require('ical-generator')
 const pdf2html = require('pdf2html')
 const { promisify } = require('util')
+const uuid = require('uuid/v5')
 const pdfCalendar = 'https://registrar.northeastern.edu/app/uploads/2020-2021-UG-Basic-Calendar-List.pdf'
 
 const writeFileAsync = promisify(writeFile)
@@ -12,7 +13,7 @@ const DOW = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 const TIME_REGEX = new RegExp('[0-9]{1,2}:[0-9][0-9][ ]*(am|pm|a.m.|p.m.){0,1}', 'ig')
 const DEFAULT_DURATION_HRS = 1
 const sortDateAsc = (l, r) => l < r ? -1 : l > r ? 1 : 0
-
+const namespace = Array.from('northeastern___u').map(s => s.charCodeAt(0));
 /**
  * Extracts date from passed line. The date format should be:
  * 'Month Day Year                 DOW'
@@ -54,9 +55,12 @@ const getICalEvent = extractedScheduleEvent => {
     const end = times.length === 0 ? null : 
                 new Date(times.length > 1 ? times[1].getHours() : 
                         times[0].setHours(times[0].getHours() + DEFAULT_DURATION_HRS))
+    const uniqueName = `${start.getMonth()}${start.getFullYear()}${extractedScheduleEvent.subject}`;
+    const uid = uuid(uniqueName, namespace);
     return {
         start,
         end,
+        uid,
         allDay: times.length === 0,
         summary: extractedScheduleEvent.subject,
         description: extractedScheduleEvent.details,
