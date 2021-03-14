@@ -1,9 +1,9 @@
 const CommandLineArgs = require('command-line-args')
 const CommandLineUsage = require('command-line-usage')
-const { writeICalendar } = require('./src/MURSDCalendarsToICalendar')
+const { writeICalendar } = require('./src/NEUCalendarsToICalendar')
 
-const DEFAULT_TITLE = 'Mendon Upton Regional School District'
-const DEFAULT_OUTPUT= 'mursd.ical'
+const DEFAULT_TITLE = 'Northeastern University'
+const DEFAULT_OUTPUT= 'northeastern.ical'
 const uri_to_pdf = (uri) => {
     if(uri.endsWith('pdf')) {
         return new URL(uri)
@@ -23,7 +23,7 @@ const optionDefinitions = [
 const logUsage = (scriptName) => console.log(CommandLineUsage([
     {
         header: `npm run ${scriptName} -- `,
-        content: 'Converts 1 or more MURSD Calender PDFs (referenced by uri) to a single icalendar format',
+        content: 'Converts 1 or more Northeastern University Calender PDFs (referenced by uri) to a single icalendar format',
     },
     {
         header: 'Options',
@@ -48,7 +48,7 @@ async function main(argv = [], scriptName='main') {
         return
     }
     const urls = args.input.map(uri => uri.href)
-    console.log('Converting MURSD pdfs to icalendar',{
+    console.log('Converting Northeastern pdfs to icalendar',{
         title: args.title,
         icalendarFile: args.output,
         urls,
